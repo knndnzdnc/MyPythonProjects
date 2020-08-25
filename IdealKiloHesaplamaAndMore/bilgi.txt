@@ -1,0 +1,4 @@
+Kullanım şekli;
+Kilonuzu, boyunuzu, cinsiyetinizi girdikten sonra sistem size;
+İdeal kilo, Vücut Kitle Indexi, Yağsız Vücut Ağırlığı ve Vücut yüzey alanınız
+gibi bilgileri veriyor.
