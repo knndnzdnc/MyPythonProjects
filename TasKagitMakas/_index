@@ -1,0 +1,85 @@
+import random
+import sys
+from PyQt5 import QtWidgets
+from PyQt5.QtWidgets import QMessageBox
+from _MainWindow import Ui_MainWindow
+
+
+class Window(QtWidgets.QMainWindow):
+    def __init__(self):
+        super(Window, self).__init__()
+
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+
+        self.ui.btnpick.clicked.connect(self.getAll)
+        self.my_sayac = 0
+        self.him_sayac = 0
+
+    def getAll(self):
+        list = ["Taş", "Kağıt", "Makas"]
+        mrandom = random.choice(list)
+
+        self.ui.txthimchoice.setText(f'{mrandom}')
+        my_choice = self.ui.cbpick.currentText()
+        self.ui.txtmychoice.setText(my_choice)
+
+        if my_choice == mrandom:
+            pass
+        elif my_choice == "Taş" and mrandom == "Makas":
+            self.my_sayac += 1
+            self.ui.lblmyscore.setText(f'{self.my_sayac}')
+        elif my_choice == "Makas" and mrandom == "Kağıt":
+            self.my_sayac += 1
+            self.ui.lblmyscore.setText(f'{self.my_sayac}')
+        elif my_choice == "Kağıt" and mrandom == "Taş":
+            self.my_sayac += 1
+            self.ui.lblmyscore.setText(f'{self.my_sayac}')
+        else:
+            self.him_sayac +=1
+            self.ui.lblhimscore.setText(f'{self.him_sayac}')
+
+        if self.my_sayac == 3:
+            msg = QMessageBox()
+            msg.setWindowTitle("Yeniden oynamak ister misin?")
+            msg.setText("Siz kazandınız\nYeniden oynamak ister misin?")
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok | msg.Cancel)
+            msg.setDefaultButton(QMessageBox.Ok)
+            msg.buttonClicked.connect(self.popup_button)
+            x = msg.exec_()
+            print(x)
+
+        elif self.him_sayac == 3:
+            msg = QMessageBox()
+            msg.setWindowTitle("Yapay zeka kazandı")
+            msg.setText("Yapay zeka kazandı\nYeniden oynamak ister misin?")
+            msg.setIcon(QMessageBox.Information)
+            msg.setStandardButtons(QMessageBox.Ok | msg.Cancel)
+            msg.setDefaultButton(QMessageBox.Ok)
+            msg.buttonClicked.connect(self.popup_button)
+            x = msg.exec_()
+            print(x)
+
+    def popup_button(self, i):
+        if i.text() == "OK":
+            self.ui.txtmychoice.clear()
+            self.ui.txthimchoice.clear()
+            self.ui.lblmyscore.setText("")
+            self.ui.lblhimscore.setText("")
+            self.my_sayac=0
+            self.him_sayac=0
+        elif i.text() == "Cancel":
+            exit()
+
+
+def App():
+    app = QtWidgets.QApplication(sys.argv)
+    win = Window()
+    win.show()
+    sys.exit(app.exec_())
+
+
+App()
+
+
